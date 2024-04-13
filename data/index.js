@@ -5,7 +5,7 @@ let products = [];
 let pathFile = "./data/products.json"
 
 //creamos metodo addProducts para agregar productos al arreglo inicial
-const addProduct = async (title, description, price, thumbail, code, stock) => {
+const addProduct = async(title, description, price, thumbail, code, stock) => {
 
 const newProduct = {
     id: products.length + 1,
@@ -17,8 +17,12 @@ const newProduct = {
     stock
 };
 
+if(Object.values(newProduct).includes(undefined)){
+   console.log("Todos los campos son obligatorios");
+}
+
 //validamos que no se repita el campo code
-const productExists = products.find (product => product.code === code);
+const productExists = products.find(product => product.code === code);
 if (productExists){
     console.log('El producto con el codigo ${code} ya existe');
     return;
@@ -37,21 +41,20 @@ const getProducts = async () => {
 
 const getProductById = async (id) => {
     await getProducts();
-     const product = products.find (product => product.id === id);
+     const product = products.find ((product) => product.id === id);
     if (!product) {
         console.log ("No se encontro el producto con el ID ${id}");
         return;
     }
 
-    console.log(product)
-    return product
+    console.log(product);
+    return product;
 };
 
 //Actualizar un producto
-
 const updateProduct = async (id, dataProduct) => {
-    await getProducts()
-    const index = products.findIndex(product => product.id === id)
+    await getProducts();
+    const index = products.findIndex(product => product.id === id);
     products[index] = {
         ...products[index],
         ...dataProduct
